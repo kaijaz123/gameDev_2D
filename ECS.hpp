@@ -73,9 +73,24 @@ public:
     template <typename T, typename... TArgs>
     T& addComponent(TArgs&&... mArgs)
     {
+        // we begin by allocating the component of type 'T'
+        // on the heap, by forwarding the passed arguments
+        // to its constructor.
+        // notes the std::forward is a template function to move
+        // the type arguments pack to another variable/func/stuff
         T* c(new T(std::forward<TArgs>(mArgs)...));
+        
+        // then set component's entity to the current instance
         c->entity = this;
+        
+        // wrap the pointer into smart pointer because
+        // have to store it back to the container hence
+        // we have to follow the same datatype
         std::unique_ptr<Component> uPtr{ c };
+        
+        // ultimately store in back into the container (components)
+        // with using std::move cause unique_ptr cannot be copied so
+        // we move it directly
         components.emplace_back(std::move(uPtr));
 
         // if you put the parenthesis in this situation means its gonna call the function
