@@ -12,7 +12,11 @@ class Entity;
 
 using ComponentID = std::size_t;
 
-inline ComponentID getComponentTypeID()
+// for both ComponentID and getComponentID
+// When the getComponentTypeID function template is called for the first time with a given type T, the static local variable typeID is initialized with the result of calling ComponentTypeID(). This function simply returns a new value of type ComponentID by incrementing a static local variable lastID.
+// In subsequent calls to getComponentTypeID with the same type T, the static local variable typeID has already been initialized with the correct unique type ID, so the function simply returns the previously assigned value.
+// In your example, the getComponentTypeID function is called twice for type A and twice for type B. However, because the typeID variable is declared as static, its value persists between function calls. This means that the second call to getComponentTypeID<B>() and the second call to getComponentTypeID<A>() simply return the previously assigned type IDs for those types, rather than generating new ones. Therefore, the typeID remains the same for A and B in your example.
+inline ComponentID ComponentID()
 {
     static ComponentID lastID = 0;
     return lastID++;
@@ -20,7 +24,7 @@ inline ComponentID getComponentTypeID()
 
 template <typename T> inline ComponentID getComponentTypeID() noexcept
 {
-    static ComponentID typeID = getComponentTypeID();
+    static ComponentID typeID = ComponentID();
     return typeID;
 }
 
