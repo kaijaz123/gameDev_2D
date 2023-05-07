@@ -129,6 +129,8 @@ public:
     }
     void refresh()
     {
+        // start by cleaning up the 'dead' entity
+        // after cleaning up make sure to update again
         entities.erase(std::remove_if(std::begin(entities), std::end(entities), 
             [](const std::unique_ptr<Entity> &mEntity)
         {
