@@ -98,6 +98,10 @@ public:
         components.emplace_back(std::move(uPtr));
 
         // if you put the parenthesis in this situation means its gonna call the function
+        // By this one we can store every entity constructor automatically while addind new component
+        // instead of storing them manually
+        // Also the component Array store all the unique type and bitset make sure it has
+        // something on the position
         componentArray[getComponentTypeID<T>()] = c;
         componentBitSet[getComponentTypeID<T>()] = true;
   
