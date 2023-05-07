@@ -109,6 +109,7 @@ public:
         componentArray[getComponentTypeID<T>()] = c;
         componentBitSet[getComponentTypeID<T>()] = true;
   
+        // after we add in new component we have to init it
         c->init();
         return *c;
     }
