@@ -3,9 +3,11 @@
 #include "GameObject.hpp"
 #include "Map.hpp"
 #include "ECS/Components.hpp"
+#include "Vector2D.hpp"
 // #include "spdlog/spdlog.h"
 
 SDL_Renderer* Game::renderer = nullptr;
+SDL_Event Game::event;
 Map* map;
 Manager manager;
 
@@ -47,15 +49,23 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     map = new Map();
 
     // ecs implementation
-    player.addComponent<PositionComponent>();
+    player.addComponent<TransformComponent>();
     player.addComponent<SpriteComponent>("gui/assets/player.png");
+    player.addComponent<KeyboardController>();
 }
 
 void Game::handleEvents()
 {
-    SDL_Event event;
     SDL_PollEvent(&event);
-    if (event.type == SDL_QUIT) { isRunning = false;}
+
+    switch (event.type)
+    {
+        case SDL_QUIT:
+            isRunning = false;
+            break;
+        default:
+            break;
+    }
     
 }
 
@@ -63,11 +73,6 @@ void Game::update()
 {
     manager.refresh();
     manager.update();
-
-    if (player.getComponent<PositionComponent>().x() > 100)
-    {
-        player.getComponent<SpriteComponent>().setTex("gui/assets/enemy.png");
-    }
 }
 
 void Game::render()

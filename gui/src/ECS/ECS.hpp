@@ -91,6 +91,8 @@ public:
   
         c->init();
         return *c;
+        // More explanation about the template function itself and how it works
+        // at the notes.txt
     }
 
     template<typename T> T& getComponent() const

@@ -6,7 +6,7 @@
 class SpriteComponent : public Component
 {
 private:
-    PositionComponent *position;
+    TransformComponent *transform;
     SDL_Texture *texture;
     SDL_Rect srcRect, destRect;
 
@@ -28,7 +28,7 @@ public:
         // It returns the dereference item (the value) hence we cant receive it directly else will get conversion error
         // so thats why the & is added here means we capture the address here then access it with -> later
         // Derefence means e.g. *pointer = &num then we receive it with the & symbol then access the value later on
-        position = &entity->getComponent<PositionComponent>();
+        transform = &entity->getComponent<TransformComponent>();
 
         srcRect.x = srcRect.y = 0;
         srcRect.w = srcRect.h = 32;
@@ -37,8 +37,8 @@ public:
 
     void update() override
     {
-        destRect.x = position->x();
-        destRect.y = position->y();
+        destRect.x = (int)transform->position.x;
+        destRect.y = (int)transform->position.y;
     }
 
     void draw() override

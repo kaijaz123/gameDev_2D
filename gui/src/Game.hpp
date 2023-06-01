@@ -20,6 +20,7 @@ public:
     void clean(); // memory management
 
     static SDL_Renderer* renderer;
+    static SDL_Event event;
 
     bool running() { return isRunning; };
 
