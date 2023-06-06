@@ -1,0 +1,42 @@
+Code comment/explanation
+
+1. Explanation of the template function 
+
+class test
+{
+public:
+    test(int x) : x(x) {
+        std::cout << "Value of x: " << x << std::endl;
+    void call() { std::cout << “Call”;}
+    }
+
+private:
+    int x;
+};
+
+template<typename T>
+void sample(T x, int y)
+{
+    std::cout << "In sample function" << std::endl;
+   x.call();
+   std::cout << y;
+}
+
+int main()
+{
+    sample<test>(5);
+    return 0;
+}
+
+In the sample<test>(5), the class test is passed as datatype into 
+function sample and T is a placeholder for the passed datatype(test). 
+Hence, in order to match the datatype(test) the compiler will automatically 
+instantiate an object of class test (the constructor of the instantiated test 
+object will be called as well) to match the datatype(test). So the details will be like this:
+
+sample (T x, int y) equals to sample<test>(5,4)
+sample (Test testclsobj, int y)
+T = Test, x = testclsobj
+The first argument 5 gets passed into the testclsobj because the testclsobj 
+is instantiated automatically so the argument will be passed to the same place 
+which is testclsobj
