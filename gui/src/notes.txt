@@ -40,3 +40,15 @@ T = Test, x = testclsobj
 The first argument 5 gets passed into the testclsobj because the testclsobj 
 is instantiated automatically so the argument will be passed to the same place 
 which is testclsobj
+
+
+// Code for the addComponent in ECS.hpp
+c->entity = this;
+
+with this line of code, we link the component to the parent entity
+hence we can access the property (func) or access (modify) other
+member variable under the same entity (another component added in the same entity)
+
+For example in TileComponent.hpp line 44 we call the
+entity->getComponent... and at here it accesses the parent entity
+and call the property

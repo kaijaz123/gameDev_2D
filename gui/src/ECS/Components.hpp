@@ -1,7 +1,9 @@
 #pragma once
 #include "ECS.hpp"
+#include "../TextureManager.hpp"
 #include "TransformComponent.hpp"
 #include "SpriteComponent.hpp"
 #include "KeyboardController.hpp"
 #include "ColliderComponent.hpp"
 #include "Collision.hpp"
+#include "TileComponent.hpp"

@@ -95,6 +95,7 @@ public:
         // at the notes.txt
     }
 
+    // return by reference
     template<typename T> T& getComponent() const
     {
         auto componentPtr = componentArray[getComponentTypeID<T>()];

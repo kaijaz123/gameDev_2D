@@ -33,6 +33,7 @@ public:
         // It returns the dereference item (the value) hence we cant receive it directly else will get conversion error
         // so thats why the & is added here means we capture the address here then access it with -> later
         // Derefence means e.g. *pointer = &num then we receive it with the & symbol then access the value later on
+        // E.g. *pointer = &value so we follow the exact same format in this case equals *transform = &entity..
         transform = &entity->getComponent<TransformComponent>();
 
         srcRect.x = srcRect.y = 0;

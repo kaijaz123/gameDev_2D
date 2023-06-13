@@ -1,8 +1,7 @@
 #include "Game.hpp"
-#include "TextureManager.hpp"
 #include "GameObject.hpp"
-#include "Map.hpp"
 #include "ECS/Components.hpp"
+#include "Map.hpp"
 #include "Vector2D.hpp"
 // #include "spdlog/spdlog.h"
 
@@ -11,6 +10,12 @@ SDL_Event Game::event;
 Map* map;
 Manager manager;
 
+std::vector<ColliderComponent*> Game::colliders;
+
+// Auto keywords here means its not pointer type
+// hence we can call the func by object.func()
+// unless we specify catch with a pointer then it becomes
+// object->func()
 auto& player(manager.addEntity());
 auto& wall(manager.addEntity());
 
@@ -50,6 +55,8 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     map = new Map();
 
     // ecs implementation
+    Map::LoadMap("gui/assets/map16x16.map", 16, 16);
+
     player.addComponent<TransformComponent>(2);
     player.addComponent<SpriteComponent>("gui/assets/player.png");
     player.addComponent<KeyboardController>();
@@ -79,19 +86,16 @@ void Game::update()
     manager.refresh();
     manager.update();
 
-    if(Collision::AABB(player.getComponent<ColliderComponent>().collider, 
-                       wall.getComponent<ColliderComponent>().collider))
+    for (auto cc: colliders)
     {
-        // player.getComponent<TransformComponent>().scale = 1;
-        player.getComponent<TransformComponent>().velocity * -1;
-        std::cout << "Wall Hit" << std::endl;
+        Collision::AABB(player.getComponent<ColliderComponent>(), *cc);
     }
 }
 
 void Game::render()
 {
     SDL_RenderClear(renderer); // Clear the screen to render
-    map->DrawMap();
+    
 
     manager.draw();
     SDL_RenderPresent(renderer); // Start the rendering
@@ -103,4 +107,10 @@ void Game::clean()
     SDL_DestroyRenderer(renderer);
     SDL_Quit();
     std::cout << "Game Cleaned!" << std::endl;
+}
+
+void Game::AddTile(int id, int x, int y)
+{
+    auto& tile(manager.addEntity());
+    tile.addComponent<TileComponent>(x, y, 32, 32, id);
 }
