@@ -65,6 +65,7 @@ endif
 OBJECTS :=
 
 OBJECTS += $(OBJDIR)/Collision.o
+OBJECTS += $(OBJDIR)/ECS.o
 OBJECTS += $(OBJDIR)/Game.o
 OBJECTS += $(OBJDIR)/GameObject.o
 OBJECTS += $(OBJDIR)/Map.o
@@ -133,6 +134,9 @@ endif
 # #############################################
 
 $(OBJDIR)/Collision.o: gui/src/ECS/Collision.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/ECS.o: gui/src/ECS/ECS.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Game.o: gui/src/Game.cpp

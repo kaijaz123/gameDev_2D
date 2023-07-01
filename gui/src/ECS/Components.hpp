@@ -7,3 +7,4 @@
 #include "ColliderComponent.hpp"
 #include "Collision.hpp"
 #include "TileComponent.hpp"
+#include "ProjectileComponent.hpp"

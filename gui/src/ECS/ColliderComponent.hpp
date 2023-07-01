@@ -10,11 +10,21 @@ public:
     std::string tag;
     // For the case where object A collides into object B,
     // the information of object B is represented by the tag (i.e. a player, a house, etc.)
+    SDL_Texture* tex;
+    SDL_Rect srcR, destR;
 
     TransformComponent *transform;
     ColliderComponent(std::string t)
     {
         tag = t;
+    }
+
+    ColliderComponent(std::string t, int xpos, int ypos, int size)
+    {
+        tag = t;
+        collider.x = xpos;
+        collider.y = ypos;
+        collider.h = collider.w = size;
     }
 
     void init() override
@@ -25,14 +35,27 @@ public:
         }
         transform = &entity->getComponent<TransformComponent>();
 
-        Game::colliders.push_back(this);
+        tex = TextureManager::LoadTexture("gui/assets/coltex.png");
+        srcR = { 0, 0, 32, 32};
+        destR = { collider.x, collider.y, collider.w, collider.h};
     }
 
     void update() override
     {
-        collider.x = static_cast<int>(transform->position.x);
-        collider.y = static_cast<int>(transform->position.y);
-        collider.w = transform->width * transform->scale;
-        collider.h = transform->height * transform->scale;
+        if (tag != "terrain")
+        {
+            collider.x = static_cast<int>(transform->position.x);
+            collider.y = static_cast<int>(transform->position.y);
+            collider.w = transform->width * transform->scale;
+            collider.h = transform->height * transform->scale;
+        }
+
+        destR.x = collider.x - Game::camera.x;
+        destR.y = collider.y - Game::camera.y;
+    }
+
+    void draw() override
+    {
+        TextureManager::Draw(tex, srcR, destR, SDL_FLIP_NONE);
     }
 };

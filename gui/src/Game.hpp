@@ -8,6 +8,7 @@
 #include <SDL2/SDL_image.h>
 #include <vector>
 
+class AssetManager;
 class ColliderComponent;
 
 class Game {
@@ -22,15 +23,22 @@ public:
     void render();
     void clean(); // memory management
 
-    static void AddTile(int id, int x, int y);
     static SDL_Renderer* renderer;
     static SDL_Event event;
-    static std::vector<ColliderComponent*> colliders;
+    static bool isRunning;
+    static SDL_Rect camera;
+    static AssetManager* assets;
 
     bool running() { return isRunning; };
+    enum GroupLabels : std::size_t
+    {
+        groupMap,
+        groupPlayers,
+        groupColliders,
+        groupProjectiles
+    };
 
 private:
-    bool isRunning;
     SDL_Window *window;
     int cnt = 0;
 };
